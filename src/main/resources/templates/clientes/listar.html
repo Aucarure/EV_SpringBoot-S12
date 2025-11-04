@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesas - Sabor Gourmet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+        <a href="/home" class="navbar-brand">Sabor Gourmet</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <a href="/clientes" class="nav-link">Clientes</a>
+            <a href="/mesas" class="nav-link">Mesas</a>
+            <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container-modern">
+    <div class="page-header fade-in">
+        <h1 class="page-title">Gestión de Mesas</h1>
+        <p class="page-subtitle">Administra las mesas del restaurante</p>
+    </div>
+
+    <!-- Barra de Acciones -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <a th:href="@{/mesas/nuevo}" class="btn-primary-modern">
+            + Nueva Mesa
+        </a>
+
+        <div style="display: flex; gap: 0.5rem;">
+            <a th:href="@{/mesas}" class="btn-modern">Todas</a>
+            <a th:href="@{/mesas/disponibles}" class="btn-success-modern">Disponibles</a>
+            <a th:href="@{/mesas/ocupadas}" class="btn-danger-modern">Ocupadas</a>
+        </div>
+    </div>
+
+    <!-- Tabla de Mesas -->
+    <div class="fade-in" style="animation-delay: 0.2s;">
+        <table class="table-modern">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Capacidad</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="mesa : ${mesas}">
+                <td th:text="${mesa.idMesa}">1</td>
+                <td>
+                    <strong style="font-size: 1.2rem;" th:text="'Mesa ' + ${mesa.numero}">Mesa 1</strong>
+                </td>
+                <td th:text="${mesa.capacidad} + ' personas'">4 personas</td>
+                <td>
+                            <span th:if="${mesa.estado == 'disponible'}" class="badge-modern badge-disponible">
+                                ✅ Disponible
+                            </span>
+                    <span th:if="${mesa.estado == 'ocupada'}" class="badge-modern badge-ocupada">
+                                🔴 Ocupada
+                            </span>
+                    <span th:if="${mesa.estado == 'reservada'}" class="badge-modern badge-reservada">
+                                ⏰ Reservada
+                            </span>
+                    <span th:if="${mesa.estado == 'mantenimiento'}" class="badge-modern badge-mantenimiento">
+                                🔧 Mantenimiento
+                            </span>
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <!-- Cambiar Estados -->
+                        <a th:if="${mesa.estado != 'disponible'}"
+                           th:href="@{/mesas/liberar/{id}(id=${mesa.idMesa})}"
+                           class="btn-success-modern btn-icon"
+                           title="Liberar">
+                            ✅
+                        </a>
+                        <a th:if="${mesa.estado == 'disponible'}"
+                           th:href="@{/mesas/ocupar/{id}(id=${mesa.idMesa})}"
+                           class="btn-danger-modern btn-icon"
+                           title="Ocupar">
+                            🔴
+                        </a>
+                        <a th:if="${mesa.estado == 'disponible'}"
+                           th:href="@{/mesas/reservar/{id}(id=${mesa.idMesa})}"
+                           class="btn-warning-modern btn-icon"
+                           title="Reservar">
+                            ⏰
+                        </a>
+
+                        <!-- Editar -->
+                        <a th:href="@{/mesas/editar/{id}(id=${mesa.idMesa})}"
+                           class="btn-modern btn-icon"
+                           title="Editar">
+                            ✏️
+                        </a>
+
+                        <!-- Eliminar -->
+                        <a th:href="@{/mesas/eliminar/{id}(id=${mesa.idMesa})}"
+                           class="btn-danger-modern btn-icon"
+                           onclick="return confirm('¿Eliminar esta mesa?')"
+                           title="Eliminar">
+                            🗑️
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${#lists.isEmpty(mesas)}"
+             style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🪑</div>
+            <p style="font-size: 1.2rem;">No hay mesas registradas</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

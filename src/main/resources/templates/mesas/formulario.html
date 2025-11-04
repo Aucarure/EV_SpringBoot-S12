@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${mesa.idMesa != null ? 'Editar Mesa' : 'Nueva Mesa'}">Formulario Mesa</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+        <a href="/home" class="navbar-brand">Sabor Gourmet</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <a href="/clientes" class="nav-link">Clientes</a>
+            <a href="/mesas" class="nav-link">Mesas</a>
+            <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container-modern">
+    <div class="page-header fade-in">
+        <h1 class="page-title" th:text="${mesa.idMesa != null ? 'Editar Mesa' : 'Nueva Mesa'}">
+            Formulario Mesa
+        </h1>
+        <p class="page-subtitle">Configura la información de la mesa</p>
+    </div>
+
+    <!-- Formulario -->
+    <form th:action="@{/mesas/guardar}" th:object="${mesa}" method="post" class="form-modern fade-in">
+
+        <input type="hidden" th:field="*{idMesa}">
+
+        <!-- Vista previa de la mesa -->
+        <div class="card-modern" style="margin-bottom: 2rem; text-align: center; padding: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🪑</div>
+            <div style="font-size: 2.5rem; font-weight: 700; color: var(--text);"
+                 id="preview-numero">
+                Mesa <span th:text="${mesa.numero != null ? mesa.numero : '#'}">#</span>
+            </div>
+            <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 1.1rem;"
+                 id="preview-capacidad">
+                Capacidad: <span th:text="${mesa.capacidad != null ? mesa.capacidad : '0'}">0</span> personas
+            </div>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Número de Mesa *</label>
+            <input type="number"
+                   th:field="*{numero}"
+                   class="form-control-modern"
+                   placeholder="Ej: 1"
+                   min="1"
+                   id="input-numero"
+                   required>
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Número único para identificar la mesa
+            </small>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Capacidad (personas) *</label>
+            <input type="number"
+                   th:field="*{capacidad}"
+                   class="form-control-modern"
+                   placeholder="Ej: 4"
+                   min="1"
+                   max="20"
+                   id="input-capacidad"
+                   required>
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Número máximo de personas que pueden sentarse
+            </small>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Estado *</label>
+            <select th:field="*{estado}" class="form-control-modern form-select-modern" required>
+                <option value="disponible">✅ Disponible</option>
+                <option value="ocupada">🔴 Ocupada</option>
+                <option value="reservada">⏰ Reservada</option>
+                <option value="mantenimiento">🔧 Mantenimiento</option>
+            </select>
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Estado actual de la mesa
+            </small>
+        </div>
+
+        <!-- Botones de acción -->
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn-primary-modern" style="flex: 1;">
+                💾 Guardar Mesa
+            </button>
+            <a th:href="@{/mesas}" class="btn-modern" style="flex: 1; text-align: center;">
+                ← Volver
+            </a>
+        </div>
+
+        <!-- Guía de capacidades -->
+        <div class="card-modern" style="margin-top: 2rem; background: var(--secondary);">
+            <h4 style="color: var(--text); margin-bottom: 1rem; font-size: 1.1rem;">
+                💡 Guía de Capacidades
+            </h4>
+            <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                <li style="padding: 0.5rem 0;">🪑 2 personas - Mesa individual/pareja</li>
+                <li style="padding: 0.5rem 0;">🪑 4 personas - Mesa familiar pequeña</li>
+                <li style="padding: 0.5rem 0;">🪑 6 personas - Mesa familiar grande</li>
+                <li style="padding: 0.5rem 0;">🪑 8+ personas - Mesa para grupos</li>
+            </ul>
+        </div>
+    </form>
+</div>
+
+<!-- Script para actualizar vista previa -->
+<script>
+    const inputNumero = document.getElementById('input-numero');
+    const inputCapacidad = document.getElementById('input-capacidad');
+    const previewNumero = document.querySelector('#preview-numero span');
+    const previewCapacidad = document.querySelector('#preview-capacidad span');
+
+    if (inputNumero) {
+        inputNumero.addEventListener('input', function() {
+            previewNumero.textContent = this.value || '#';
+        });
+    }
+
+    if (inputCapacidad) {
+        inputCapacidad.addEventListener('input', function() {
+            previewCapacidad.textContent = this.value || '0';
+        });
+    }
+</script>
+</body>
+</html>

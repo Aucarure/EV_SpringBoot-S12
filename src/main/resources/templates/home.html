@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Sabor Gourmet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+        <a href="/home" class="navbar-brand">Sabor Gourmet</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <a href="/clientes" class="nav-link">Clientes</a>
+            <a href="/mesas" class="nav-link">Mesas</a>
+            <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido Principal -->
+<div class="container-modern">
+    <div class="page-header fade-in">
+        <h1 class="page-title">Bienvenido a Sabor Gourmet</h1>
+        <p class="page-subtitle">Sistema de Gestión de Restaurante</p>
+    </div>
+
+    <!-- Grid de Módulos -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+
+        <!-- Card Clientes -->
+        <a href="/clientes" style="text-decoration: none;">
+            <div class="card-modern fade-in" style="height: 100%;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
+                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text);">Clientes</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Gestiona la información de tus clientes, registros y consultas
+                </p>
+                <div class="btn-primary-modern" style="display: inline-block;">
+                    Ver Clientes →
+                </div>
+            </div>
+        </a>
+
+        <!-- Card Mesas -->
+        <a href="/mesas" style="text-decoration: none;">
+            <div class="card-modern fade-in" style="height: 100%; animation-delay: 0.1s;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🪑</div>
+                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text);">Mesas</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Administra las mesas del restaurante y su disponibilidad
+                </p>
+                <div class="btn-primary-modern" style="display: inline-block;">
+                    Ver Mesas →
+                </div>
+            </div>
+        </a>
+
+        <!-- Card Disponibilidad -->
+        <a href="/mesas/disponibles" style="text-decoration: none;">
+            <div class="card-modern fade-in" style="height: 100%; animation-delay: 0.2s;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text);">Disponibles</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Consulta las mesas disponibles para asignar
+                </p>
+                <div class="btn-success-modern" style="display: inline-block;">
+                    Ver Disponibles →
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Información del Usuario -->
+    <div class="card-modern" style="margin-top: 3rem; text-align: center;">
+        <p style="color: var(--text-secondary);">
+            Usuario actual: <strong sec:authentication="name" style="color: var(--text);">Usuario</strong>
+        </p>
+        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+            Rol: <strong sec:authentication="principal.authorities" style="color: var(--accent);">ROL</strong>
+        </p>
+    </div>
+</div>
+</body>
+</html>

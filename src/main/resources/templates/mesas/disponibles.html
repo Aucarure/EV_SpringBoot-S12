@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesas Disponibles - Sabor Gourmet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+        <a href="/home" class="navbar-brand">Sabor Gourmet</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <a href="/clientes" class="nav-link">Clientes</a>
+            <a href="/mesas" class="nav-link">Mesas</a>
+            <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container-modern">
+    <div class="page-header fade-in">
+        <h1 class="page-title">Mesas Disponibles</h1>
+        <p class="page-subtitle">Selecciona una mesa para asignar</p>
+    </div>
+
+    <!-- Barra de Acciones -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <a th:href="@{/mesas}" class="btn-modern">
+            ← Ver Todas las Mesas
+        </a>
+
+        <form th:action="@{/mesas/buscar}" method="get" style="display: flex; gap: 0.5rem;">
+            <input type="number"
+                   name="capacidad"
+                   placeholder="Capacidad mínima..."
+                   class="form-control-modern"
+                   style="width: 200px;"
+                   min="1">
+            <button type="submit" class="btn-modern">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Grid de Mesas Disponibles -->
+    <div class="mesas-grid fade-in">
+        <div th:each="mesa : ${mesas}" class="mesa-card">
+            <div class="mesa-numero" th:text="${mesa.numero}">1</div>
+            <div class="mesa-capacidad" th:text="${mesa.capacidad} + ' personas'">4 personas</div>
+            <span class="badge-modern badge-disponible" style="display: block; margin-bottom: 1rem;">
+                    ✅ Disponible
+                </span>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a th:href="@{/mesas/ocupar/{id}(id=${mesa.idMesa})}"
+                   class="btn-primary-modern"
+                   style="width: 100%;">
+                    Ocupar Mesa
+                </a>
+                <a th:href="@{/mesas/reservar/{id}(id=${mesa.idMesa})}"
+                   class="btn-warning-modern"
+                   style="width: 100%;">
+                    Reservar
+                </a>
+                <a th:href="@{/mesas/editar/{id}(id=${mesa.idMesa})}"
+                   class="btn-modern"
+                   style="width: 100%;">
+                    Editar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje si no hay mesas disponibles -->
+    <div th:if="${#lists.isEmpty(mesas)}"
+         class="card-modern"
+         style="text-align: center; padding: 4rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🔴</div>
+        <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--text);">
+            No hay mesas disponibles
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+            Todas las mesas están ocupadas, reservadas o en mantenimiento
+        </p>
+        <a th:href="@{/mesas}" class="btn-modern">
+            Ver Todas las Mesas
+        </a>
+    </div>
+
+    <!-- Estadísticas rápidas -->
+    <div class="card-modern" style="margin-top: 3rem; text-align: center;">
+        <h3 style="color: var(--text); margin-bottom: 1rem; font-size: 1.3rem;">
+            📊 Estadísticas
+        </h3>
+        <p style="color: var(--text-secondary); font-size: 1.1rem;">
+            <span th:text="${#lists.size(mesas)}">0</span> mesas disponibles en este momento
+        </p>
+    </div>
+</div>
+
+<script>
+    // Auto-refresh cada 30 segundos para actualizar disponibilidad
+    setTimeout(function(){
+        location.reload();
+    }, 30000);
+</script>
+</body>
+</html>

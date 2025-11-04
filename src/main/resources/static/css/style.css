@@ -1,0 +1,463 @@
+/* ========================================
+   DISEÑO MODERNO ESTILO TESLA/APPLE
+   ======================================== */
+
+:root {
+    --primary: #000000;
+    --secondary: #1a1a1a;
+    --accent: #3b82f6;
+    --text: #ffffff;
+    --text-secondary: #a3a3a3;
+    --bg: #000000;
+    --card-bg: #111111;
+    --border: #262626;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --hover: #1f1f1f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ========================================
+   NAVBAR ESTILO TESLA
+   ======================================== */
+
+.navbar {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text) !important;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    margin: 0 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--text) !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ========================================
+   CONTENEDOR PRINCIPAL
+   ======================================== */
+
+.container-modern {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* ========================================
+   HEADER DE PÁGINA
+   ======================================== */
+
+.page-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -2px;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* ========================================
+   BOTONES ESTILO APPLE
+   ======================================== */
+
+.btn-modern {
+    background: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.75rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-modern:hover {
+    background: var(--hover);
+    border-color: var(--text-secondary);
+    color: var(--text);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+.btn-primary-modern {
+    background: var(--accent);
+    color: white;
+    border: none;
+}
+
+.btn-primary-modern:hover {
+    background: #2563eb;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+}
+
+.btn-success-modern {
+    background: var(--success);
+    color: white;
+    border: none;
+}
+
+.btn-danger-modern {
+    background: var(--danger);
+    color: white;
+    border: none;
+}
+
+.btn-warning-modern {
+    background: var(--warning);
+    color: white;
+    border: none;
+}
+
+/* ========================================
+   CARDS MODERNAS
+   ======================================== */
+
+.card-modern {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.card-modern:hover {
+    border-color: var(--text-secondary);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   TABLA ESTILO TESLA
+   ======================================== */
+
+.table-modern {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.table-modern thead {
+    background: var(--secondary);
+}
+
+.table-modern th {
+    padding: 1.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.table-modern td {
+    padding: 1.25rem 1rem;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+}
+
+.table-modern tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table-modern tbody tr:hover {
+    background: var(--hover);
+}
+
+.table-modern tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ========================================
+   BADGES MODERNOS
+   ======================================== */
+
+.badge-modern {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-disponible {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.badge-ocupada {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+.badge-reservada {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+}
+
+.badge-mantenimiento {
+    background: rgba(163, 163, 163, 0.2);
+    color: var(--text-secondary);
+}
+
+.badge-activo {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.badge-inactivo {
+    background: rgba(163, 163, 163, 0.2);
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   FORMULARIOS MODERNOS
+   ======================================== */
+
+.form-modern {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group-modern {
+    margin-bottom: 1.5rem;
+}
+
+.form-label-modern {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-control-modern {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control-modern:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-select-modern {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 3rem;
+}
+
+/* ========================================
+   GRID DE MESAS
+   ======================================== */
+
+.mesas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.mesa-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.mesa-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+}
+
+.mesa-numero {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.mesa-capacidad {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease;
+}
+
+/* ========================================
+   ACCIONES DE TABLA
+   ======================================== */
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+/* ========================================
+   LOGIN PAGE
+   ======================================== */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+}
+
+.login-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+}
+
+.login-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+}
+
+.login-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2.5rem;
+    }
+
+    .mesas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .container-modern {
+        padding: 2rem 1rem;
+    }
+
+    .form-modern {
+        padding: 1.5rem;
+    }
+
+    .login-card {
+        padding: 2rem;
+    }
+}

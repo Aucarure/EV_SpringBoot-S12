@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - Sabor Gourmet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+        <a href="/home" class="navbar-brand">Sabor Gourmet</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <a href="/clientes" class="nav-link">Clientes</a>
+            <a href="/mesas" class="nav-link">Mesas</a>
+            <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container-modern">
+    <div class="page-header fade-in">
+        <h1 class="page-title">Gestión de Clientes</h1>
+        <p class="page-subtitle">Administra la información de tus clientes</p>
+    </div>
+
+    <!-- Barra de Acciones -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <a th:href="@{/clientes/nuevo}" class="btn-primary-modern">
+            + Nuevo Cliente
+        </a>
+
+        <form th:action="@{/clientes/buscar}" method="get" style="display: flex; gap: 0.5rem;">
+            <input type="text"
+                   name="texto"
+                   placeholder="Buscar por nombre o apellido..."
+                   class="form-control-modern"
+                   style="width: 300px;">
+            <button type="submit" class="btn-modern">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Tabla de Clientes -->
+    <div class="fade-in" style="animation-delay: 0.2s;">
+        <table class="table-modern">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>DNI</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.idCliente}">1</td>
+                <td th:text="${cliente.dni}">12345678</td>
+                <td th:text="${cliente.nombres}">Juan</td>
+                <td th:text="${cliente.apellidos}">Pérez</td>
+                <td th:text="${cliente.telefono}">999888777</td>
+                <td th:text="${cliente.correo}">juan@email.com</td>
+                <td>
+                            <span th:if="${cliente.estado == 'activo'}" class="badge-modern badge-activo">
+                                Activo
+                            </span>
+                    <span th:if="${cliente.estado == 'inactivo'}" class="badge-modern badge-inactivo">
+                                Inactivo
+                            </span>
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <a th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}"
+                           class="btn-modern btn-icon">
+                            ✏️
+                        </a>
+                        <a th:if="${cliente.estado == 'activo'}"
+                           th:href="@{/clientes/eliminar/{id}(id=${cliente.idCliente})}"
+                           class="btn-danger-modern btn-icon"
+                           onclick="return confirm('¿Desactivar este cliente?')">
+                            🗑️
+                        </a>
+                        <a th:if="${cliente.estado == 'inactivo'}"
+                           th:href="@{/clientes/activar/{id}(id=${cliente.idCliente})}"
+                           class="btn-success-modern btn-icon">
+                            ✅
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${#lists.isEmpty(clientes)}"
+             style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+            <p style="font-size: 1.2rem;">No hay clientes registrados</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

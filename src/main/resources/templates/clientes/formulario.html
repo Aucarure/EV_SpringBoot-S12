@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${cliente != null && cliente.idCliente != null ? 'Editar Cliente' : 'Nuevo Cliente'}">Formulario Cliente</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+        <a href="/home" class="navbar-brand">Sabor Gourmet</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <a href="/clientes" class="nav-link">Clientes</a>
+            <a href="/mesas" class="nav-link">Mesas</a>
+            <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container-modern">
+    <div class="page-header fade-in">
+        <h1 class="page-title" th:text="${cliente != null && cliente.idCliente != null ? 'Editar Cliente' : 'Nuevo Cliente'}">
+            Formulario Cliente
+        </h1>
+        <p class="page-subtitle">Complete la información del cliente</p>
+    </div>
+
+    <!-- Formulario -->
+    <form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post" class="form-modern fade-in">
+
+        <input type="hidden" th:field="*{idCliente}">
+        <input type="hidden" th:field="*{estado}"> <!-- Estado se maneja automáticamente -->
+
+        <!-- Vista previa del cliente -->
+        <div class="card-modern" style="margin-bottom: 2rem; text-align: center; padding: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">👤</div>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--text);" id="preview-nombre">
+                <span th:text="${cliente != null && cliente.nombres != null && cliente.apellidos != null ? cliente.nombres + ' ' + cliente.apellidos : 'Nuevo Cliente'}">Nuevo Cliente</span>
+            </div>
+            <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 1.1rem;" id="preview-correo">
+                <span th:text="${cliente != null && cliente.correo != null && cliente.correo != '' ? cliente.correo : 'correo@ejemplo.com'}">correo@ejemplo.com</span>
+            </div>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">DNI *</label>
+            <input type="text"
+                   th:field="*{dni}"
+                   class="form-control-modern"
+                   placeholder="Ej: 12345678"
+                   pattern="[0-9]{8}"
+                   maxlength="8"
+                   id="input-dni"
+                   required>
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Número de DNI (8 dígitos)
+            </small>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Nombres *</label>
+            <input type="text"
+                   th:field="*{nombres}"
+                   class="form-control-modern"
+                   placeholder="Ej: Juan Carlos"
+                   id="input-nombres"
+                   required>
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Nombres del cliente
+            </small>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Apellidos *</label>
+            <input type="text"
+                   th:field="*{apellidos}"
+                   class="form-control-modern"
+                   placeholder="Ej: Pérez García"
+                   id="input-apellidos"
+                   required>
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Apellidos del cliente
+            </small>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Teléfono</label>
+            <input type="tel"
+                   th:field="*{telefono}"
+                   class="form-control-modern"
+                   placeholder="Ej: 987654321"
+                   pattern="[0-9]{9}"
+                   maxlength="9"
+                   id="input-telefono">
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Número de teléfono (9 dígitos, opcional)
+            </small>
+        </div>
+
+        <div class="form-group-modern">
+            <label class="form-label-modern">Correo</label>
+            <input type="email"
+                   th:field="*{correo}"
+                   class="form-control-modern"
+                   placeholder="Ej: cliente@ejemplo.com"
+                   id="input-correo">
+            <small style="color: var(--text-secondary); font-size: 0.85rem;">
+                Correo electrónico (opcional)
+            </small>
+        </div>
+
+        <!-- Botones de acción -->
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn-primary-modern" style="flex: 1;">
+                💾 Guardar Cliente
+            </button>
+            <a th:href="@{/clientes}" class="btn-modern" style="flex: 1; text-align: center;">
+                ← Volver
+            </a>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="card-modern" style="margin-top: 2rem; background: var(--secondary);">
+            <h4 style="color: var(--text); margin-bottom: 1rem; font-size: 1.1rem;">
+                💡 Información
+            </h4>
+            <ul style="color: var(--text-secondary); list-style: none; padding: 0;">
+                <li style="padding: 0.5rem 0;">✅ DNI y nombres son obligatorios</li>
+                <li style="padding: 0.5rem 0;">📧 El correo debe ser válido si se ingresa</li>
+                <li style="padding: 0.5rem 0;">📱 El teléfono debe tener 9 dígitos si se ingresa</li>
+                <li style="padding: 0.5rem 0;">🔄 El estado se asigna automáticamente como "activo"</li>
+            </ul>
+        </div>
+    </form>
+</div>
+
+<!-- Script para actualizar vista previa -->
+<script>
+    const inputNombres = document.getElementById('input-nombres');
+    const inputApellidos = document.getElementById('input-apellidos');
+    const inputCorreo = document.getElementById('input-correo');
+    const previewNombre = document.querySelector('#preview-nombre span');
+    const previewCorreo = document.querySelector('#preview-correo span');
+
+    function actualizarPreview() {
+        const nombres = inputNombres ? inputNombres.value : '';
+        const apellidos = inputApellidos ? inputApellidos.value : '';
+        const correo = inputCorreo ? inputCorreo.value : '';
+
+        previewNombre.textContent = (nombres || apellidos) ? (nombres + ' ' + apellidos).trim() : 'Nuevo Cliente';
+        previewCorreo.textContent = correo || 'correo@ejemplo.com';
+    }
+
+    if (inputNombres) inputNombres.addEventListener('input', actualizarPreview);
+    if (inputApellidos) inputApellidos.addEventListener('input', actualizarPreview);
+    if (inputCorreo) inputCorreo.addEventListener('input', actualizarPreview);
+</script>
+</body>
+</html>
