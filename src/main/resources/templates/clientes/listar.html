@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mesas - Sabor Gourmet</title>
+    <title>Clientes - Sabor Gourmet</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -27,91 +27,73 @@
 <!-- Contenido -->
 <div class="container-modern">
     <div class="page-header fade-in">
-        <h1 class="page-title">Gestión de Mesas</h1>
-        <p class="page-subtitle">Administra las mesas del restaurante</p>
+        <h1 class="page-title">Gestión de Clientes</h1>
+        <p class="page-subtitle">Administra la información de tus clientes</p>
     </div>
 
     <!-- Barra de Acciones -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-        <a th:href="@{/mesas/nuevo}" class="btn-primary-modern">
-            + Nueva Mesa
+        <a th:href="@{/clientes/nuevo}" class="btn-primary-modern">
+            + Nuevo Cliente
         </a>
 
-        <div style="display: flex; gap: 0.5rem;">
-            <a th:href="@{/mesas}" class="btn-modern">Todas</a>
-            <a th:href="@{/mesas/disponibles}" class="btn-success-modern">Disponibles</a>
-            <a th:href="@{/mesas/ocupadas}" class="btn-danger-modern">Ocupadas</a>
-        </div>
+        <form th:action="@{/clientes/buscar}" method="get" style="display: flex; gap: 0.5rem;">
+            <input type="text"
+                   name="texto"
+                   placeholder="Buscar por nombre o apellido..."
+                   class="form-control-modern"
+                   style="width: 300px;">
+            <button type="submit" class="btn-modern">Buscar</button>
+        </form>
     </div>
 
-    <!-- Tabla de Mesas -->
+    <!-- Tabla de Clientes -->
     <div class="fade-in" style="animation-delay: 0.2s;">
         <table class="table-modern">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Número</th>
-                <th>Capacidad</th>
+                <th>DNI</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="mesa : ${mesas}">
-                <td th:text="${mesa.idMesa}">1</td>
+            <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.idCliente}">1</td>
+                <td th:text="${cliente.dni}">12345678</td>
+                <td th:text="${cliente.nombres}">Juan</td>
+                <td th:text="${cliente.apellidos}">Pérez</td>
+                <td th:text="${cliente.telefono}">999888777</td>
+                <td th:text="${cliente.correo}">juan@email.com</td>
                 <td>
-                    <strong style="font-size: 1.2rem;" th:text="'Mesa ' + ${mesa.numero}">Mesa 1</strong>
-                </td>
-                <td th:text="${mesa.capacidad} + ' personas'">4 personas</td>
-                <td>
-                            <span th:if="${mesa.estado == 'disponible'}" class="badge-modern badge-disponible">
-                                ✅ Disponible
+                            <span th:if="${cliente.estado == 'activo'}" class="badge-modern badge-activo">
+                                Activo
                             </span>
-                    <span th:if="${mesa.estado == 'ocupada'}" class="badge-modern badge-ocupada">
-                                🔴 Ocupada
-                            </span>
-                    <span th:if="${mesa.estado == 'reservada'}" class="badge-modern badge-reservada">
-                                ⏰ Reservada
-                            </span>
-                    <span th:if="${mesa.estado == 'mantenimiento'}" class="badge-modern badge-mantenimiento">
-                                🔧 Mantenimiento
+                    <span th:if="${cliente.estado == 'inactivo'}" class="badge-modern badge-inactivo">
+                                Inactivo
                             </span>
                 </td>
                 <td>
                     <div class="table-actions">
-                        <!-- Cambiar Estados -->
-                        <a th:if="${mesa.estado != 'disponible'}"
-                           th:href="@{/mesas/liberar/{id}(id=${mesa.idMesa})}"
-                           class="btn-success-modern btn-icon"
-                           title="Liberar">
-                            ✅
-                        </a>
-                        <a th:if="${mesa.estado == 'disponible'}"
-                           th:href="@{/mesas/ocupar/{id}(id=${mesa.idMesa})}"
-                           class="btn-danger-modern btn-icon"
-                           title="Ocupar">
-                            🔴
-                        </a>
-                        <a th:if="${mesa.estado == 'disponible'}"
-                           th:href="@{/mesas/reservar/{id}(id=${mesa.idMesa})}"
-                           class="btn-warning-modern btn-icon"
-                           title="Reservar">
-                            ⏰
-                        </a>
-
-                        <!-- Editar -->
-                        <a th:href="@{/mesas/editar/{id}(id=${mesa.idMesa})}"
-                           class="btn-modern btn-icon"
-                           title="Editar">
+                        <a th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}"
+                           class="btn-modern btn-icon">
                             ✏️
                         </a>
-
-                        <!-- Eliminar -->
-                        <a th:href="@{/mesas/eliminar/{id}(id=${mesa.idMesa})}"
+                        <a th:if="${cliente.estado == 'activo'}"
+                           th:href="@{/clientes/eliminar/{id}(id=${cliente.idCliente})}"
                            class="btn-danger-modern btn-icon"
-                           onclick="return confirm('¿Eliminar esta mesa?')"
-                           title="Eliminar">
+                           onclick="return confirm('¿Desactivar este cliente?')">
                             🗑️
+                        </a>
+                        <a th:if="${cliente.estado == 'inactivo'}"
+                           th:href="@{/clientes/activar/{id}(id=${cliente.idCliente})}"
+                           class="btn-success-modern btn-icon">
+                            ✅
                         </a>
                     </div>
                 </td>
@@ -119,12 +101,20 @@
             </tbody>
         </table>
 
-        <div th:if="${#lists.isEmpty(mesas)}"
+        <div th:if="${#lists.isEmpty(clientes)}"
              style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🪑</div>
-            <p style="font-size: 1.2rem;">No hay mesas registradas</p>
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+            <p style="font-size: 1.2rem;">No hay clientes registrados</p>
         </div>
     </div>
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
