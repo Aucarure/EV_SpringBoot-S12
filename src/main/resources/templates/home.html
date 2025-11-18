@@ -7,18 +7,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Sabor Gourmet</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Estilos específicos para Home */
+        .hero-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #171717 0%, #737373 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), #2563eb);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .module-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .module-link {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--hover) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+    </style>
 </head>
 <body>
 <!-- Navbar -->
 <nav class="navbar">
-    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; width: 100%;">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; width: 100%;">
         <a href="/home" class="navbar-brand">Sabor Gourmet</a>
         <div style="display: flex; gap: 2rem; align-items: center;">
             <a href="/clientes" class="nav-link">Clientes</a>
             <a href="/mesas" class="nav-link">Mesas</a>
             <a href="/mesas/disponibles" class="nav-link">Disponibles</a>
             <form th:action="@{/logout}" method="post" style="margin: 0;">
-                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.5rem;">
+                <button type="submit" class="btn-modern" style="padding: 0.5rem 1.25rem;">
                     Cerrar Sesión
                 </button>
             </form>
@@ -28,65 +180,92 @@
 
 <!-- Contenido Principal -->
 <div class="container-modern">
-    <div class="page-header fade-in">
-        <h1 class="page-title">Bienvenido a Sabor Gourmet</h1>
-        <p class="page-subtitle">Sistema de Gestión de Restaurante</p>
+    <!-- Hero Section -->
+    <div class="hero-section fade-in">
+        <h1 class="hero-title">Bienvenido a Sabor Gourmet</h1>
+        <p class="hero-subtitle">Sistema de gestión inteligente para restaurantes</p>
     </div>
 
-    <!-- Grid de Módulos -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+    <!-- Stats Cards -->
+    <div class="stats-grid fade-in" style="animation-delay: 0.1s;">
+        <div class="stat-card">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">Clientes Activos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">24</div>
+            <div class="stat-label">Mesas Disponibles</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Satisfacción</div>
+        </div>
+    </div>
 
+    <!-- Módulos Principales -->
+    <div class="modules-grid fade-in" style="animation-delay: 0.2s;">
         <!-- Card Clientes -->
-        <a href="/clientes" style="text-decoration: none;">
-            <div class="card-modern fade-in" style="height: 100%;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
-                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text);">Clientes</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    Gestiona la información de tus clientes, registros y consultas
-                </p>
-                <div class="btn-primary-modern" style="display: inline-block;">
-                    Ver Clientes →
-                </div>
-            </div>
+        <a href="/clientes" class="module-card">
+            <div class="module-icon">👥</div>
+            <h2 class="module-title">Gestión de Clientes</h2>
+            <p class="module-description">
+                Administra toda la información de tus clientes de manera eficiente.
+                Registra, edita y consulta datos con facilidad.
+            </p>
+            <span class="module-link">
+                Ir a Clientes
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
         </a>
 
         <!-- Card Mesas -->
-        <a href="/mesas" style="text-decoration: none;">
-            <div class="card-modern fade-in" style="height: 100%; animation-delay: 0.1s;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">🪑</div>
-                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text);">Mesas</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    Administra las mesas del restaurante y su disponibilidad
-                </p>
-                <div class="btn-primary-modern" style="display: inline-block;">
-                    Ver Mesas →
-                </div>
-            </div>
+        <a href="/mesas" class="module-card">
+            <div class="module-icon">🪑</div>
+            <h2 class="module-title">Control de Mesas</h2>
+            <p class="module-description">
+                Gestiona el estado de las mesas en tiempo real.
+                Controla disponibilidad, reservas y ocupación.
+            </p>
+            <span class="module-link">
+                Ir a Mesas
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
         </a>
 
         <!-- Card Disponibilidad -->
-        <a href="/mesas/disponibles" style="text-decoration: none;">
-            <div class="card-modern fade-in" style="height: 100%; animation-delay: 0.2s;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text);">Disponibles</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                    Consulta las mesas disponibles para asignar
-                </p>
-                <div class="btn-success-modern" style="display: inline-block;">
-                    Ver Disponibles →
-                </div>
-            </div>
+        <a href="/mesas/disponibles" class="module-card">
+            <div class="module-icon">✓</div>
+            <h2 class="module-title">Disponibilidad</h2>
+            <p class="module-description">
+                Consulta rápidamente las mesas disponibles.
+                Asigna mesas de forma ágil y eficiente.
+            </p>
+            <span class="module-link">
+                Ver Disponibles
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
         </a>
-
     </div>
 
     <!-- Información del Usuario -->
-    <div class="card-modern" style="margin-top: 3rem; text-align: center;">
-        <p style="color: var(--text-secondary);">
-            Usuario actual: <strong sec:authentication="name" style="color: var(--text);">Usuario</strong>
+    <div class="user-info fade-in" style="animation-delay: 0.3s;">
+        <div class="user-avatar">
+            <span sec:authentication="name" style="font-size: 1.5rem;">👤</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 0.25rem; font-size: 0.9rem;">
+            Usuario activo
         </p>
-        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
-            Rol: <strong sec:authentication="principal.authorities" style="color: var(--accent);">ROL</strong>
+        <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;" sec:authentication="name">
+            Usuario
+        </p>
+        <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <span sec:authentication="principal.authorities"></span>
         </p>
     </div>
 </div>
